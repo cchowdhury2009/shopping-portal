@@ -2,20 +2,9 @@ pipeline {
   agent any
   stages {
     stage('build') {
-      parallel {
-        stage('build') {
-          steps {
-            echo 'this is the build job'
-            sh 'npm install'
-          }
-        }
-
-        stage('archive') {
-          steps {
-            archiveArtifacts '**/distribution/*.'
-          }
-        }
-
+      steps {
+        echo 'this is the build job'
+        sh 'npm install'
       }
     }
 
@@ -30,6 +19,12 @@ pipeline {
       steps {
         echo 'this is the package job'
         sh 'npm run package'
+      }
+    }
+
+    stage('archive') {
+      steps {
+        archiveArtifacts '**/distribution/*.zip'
       }
     }
 
